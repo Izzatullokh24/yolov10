@@ -212,7 +212,7 @@ pip install -e .
 ### ⚠️ Notes
 
 - This export disables dynamic axes and uses a fixed input shape (1x3x640x640), required for RKNN.
-- Compatible with opset=11 which works reliably with the RKNN Toolkit.
+- Compatible with opset=12 which works reliably with the RKNN Toolkit.
 - Modified files:
   - `ultralytics/engine/exporter.py`
   - `ultralytics/nn/modules/head.py`
