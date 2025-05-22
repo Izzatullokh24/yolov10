@@ -180,6 +180,43 @@ trtexec --onnx=yolov10n/s/m/b/l/x.onnx --saveEngine=yolov10n/s/m/b/l/x.engine --
 yolo predict model=yolov10n/s/m/b/l/x.engine
 ```
 
+## 🔁 Exporting YOLOv10 to ONNX for RKNN Conversion
+
+This fork includes modifications to support exporting YOLOv10 models to ONNX in a format compatible with the **Rockchip RKNN Toolkit**.
+
+### ✅ Setup
+```bash
+# Create a conda environment
+conda create -n yolov10 python=3.9
+conda activate yolov10
+# Install dependencies
+pip install -r requirements.txt
+pip install -e .
+```
+
+### 📦 Export to ONNX for RKNN
+
+1. Clone this repository and install the dependencies as shown above.
+
+2. Train your model or use an existing `.pt` checkpoint. Example:
+   ```
+   runs/train/exp/weights/best.pt
+   ```
+
+3. Export the model to ONNX format, compatible with RKNN conversion:
+   ```bash
+   yolo export model=runs/train/exp/weights/best.pt format=rknn
+   ```
+   This command will generate a `best.onnx` file that is ready for RKNN conversion.
+
+### ⚠️ Notes
+
+- This export disables dynamic axes and uses a fixed input shape (1x3x640x640), required for RKNN.
+- Compatible with opset=11 which works reliably with the RKNN Toolkit.
+- Modified files:
+  - `ultralytics/engine/exporter.py`
+  - `ultralytics/nn/modules/head.py`
+
 Or
 ```python
 from ultralytics import YOLOv10
