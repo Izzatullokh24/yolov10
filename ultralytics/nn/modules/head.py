@@ -509,6 +509,17 @@ class v10Detect(Detect):
         self.one2one_cv3 = copy.deepcopy(self.cv3)
     
     def forward(self, x):
+        """Concatenates and returns predicted bounding boxes and class probabilities."""
+        y= []
+
+        for i in range(self.nl):
+            t1 = self.one2one_cv2[i](x[i])
+            t2 = self.one2one_cv3[i](x[i])
+            y.append(t1)
+            y.append(t2)
+
+        return y
+    
         one2one = self.forward_feat([xi.detach() for xi in x], self.one2one_cv2, self.one2one_cv3)
         if not self.export:
             one2many = super().forward(x)
